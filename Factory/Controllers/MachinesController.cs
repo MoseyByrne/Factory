@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Factory.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Factory.Controllers
 {
@@ -34,7 +35,10 @@ namespace Factory.Controllers
       _db.SaveChanges(); // save first so new machine has an id
       if (EngineerId != 0)
       {
-        _db.EngineerMachine.Add(new EngineerMachine() { EngineerId = EngineerId, MachineId = machine.MachineId });
+        _db
+            .EngineerMachine
+            .Add(new EngineerMachine() 
+            { EngineerId = EngineerId, MachineId = machine.MachineId });
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
@@ -52,7 +56,8 @@ namespace Factory.Controllers
 
     public ActionResult Edit(int id)
     {
-      var thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
+      var thisMachine = 
+          _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
       ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "Name");
       return View(thisMachine);
     }
@@ -62,7 +67,10 @@ namespace Factory.Controllers
     {
       if (EngineerId != 0)
       {
-        _db.EngineerMachine.Add(new EngineerMachine() { EngineerId = EngineerId, MachineId = machine.MachineId });
+        _db
+            .EngineerMachine
+            .Add(new EngineerMachine() 
+            { EngineerId = EngineerId, MachineId = machine.MachineId });
       }
       _db.Entry(machine).State = EntityState.Modified;
       _db.SaveChanges();
@@ -71,7 +79,8 @@ namespace Factory.Controllers
 
     public ActionResult AddEngineer(int id)
     {
-        var thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
+        var thisMachine = 
+            _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
         ViewBag.EngineerId = new SelectList(_db.Engineers, "Engineer", "Name");
         return View(thisMachine);
     }
@@ -81,7 +90,10 @@ namespace Factory.Controllers
     {
         if (EngineerId != 0)
         {
-        _db.EngineerMachine.Add(new EngineerMachine() { EngineerId = EngineerId, MachineId = machine.MachineId});
+        _db
+            .EngineerMachine
+            .Add(new EngineerMachine() 
+            { EngineerId = EngineerId, MachineId = machine.MachineId});
         _db.SaveChanges();
         }
         return RedirectToAction("Index");
